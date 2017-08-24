@@ -1,0 +1,52 @@
+use fiap
+
+db.createCollection("unicorns");
+
+db.unicorns.find({
+  vampires: {$exists: 1}
+}, { //projection
+  name: 1,
+  dob:1,
+  _id:0
+})
+
+db.unicorns.find({
+  vampires: {$exists: 1}
+})
+
+db.unicorns.update({ //where
+	name:{$regex:"^Ro+dles$"}
+}, {//set
+	$set: {name: "Roodles"}
+})
+
+db.unicorns.update({
+  name:{$eq:"Roodles"},
+},{
+  $inc: {vampires: 3}
+});
+
+db.unicorns.update({
+  name:{$eq:"Roodles"},
+},{
+  $push: {loves:"pineapple"}
+});
+
+//emagrecer 10 lbs todos com mais de 600 lbs
+db.unicorns.update({
+  weight: {$gt: 600}
+ }, {
+   $inc:{weight: -10}
+ }, {
+ 	multi: true
+ })
+
+ 
+ db.unicorns.update({
+ 	name:{$eq: "Uni"},
+ 	gender:{$eq: "f"}
+ },{
+   $inc: {vampires: 10}
+ },{
+ 	upsert: true
+ })
